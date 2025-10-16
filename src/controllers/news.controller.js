@@ -1,38 +1,52 @@
-const { News } = require('../Services/news.entity');
+// controllers/news.controller.js
+const { Services } = require('../Services/news.entity');
 
-// Create Motto
-const createNews = async (req, res) => {
+// Create
+const createService = async (req, res) => {
   try {
-    const { image , title  , description , date } = req.body;
-    const newNews = new News({  image , title  , description , date });
-    await newNews.save();
-    res.status(201).json(newNews);
+    const { image, title, description, date } = req.body;
+    const doc = new Services({ image, title, description, date });
+    await doc.save();
+    res.status(201).json(doc);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Barcha kompaniyalarni olish
-const getAllNews = async (req, res) => {
+// Read all
+const getAllServices = async (req, res) => {
   try {
-    const news = await News.find();
-    res.status(200).json(news);
+    const list = await Services.find();
+    res.status(200).json(list);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const getNewsById = async (req, res) => {
+// Read by id
+const getServiceById = async (req, res) => {
   try {
     const { id } = req.params;
-    const news = await News.findById(id);
-    if (!news) {
-      return res.status(404).json({ message: 'News not found' });
-    }
-    res.status(200).json(news);
+    const item = await Services.findById(id);
+    if (!item) return res.status(404).json({ message: 'Service not found' });
+    res.status(200).json(item);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { createNews, getAllNews , getNewsById };
+// (Ixtiyoriy) Orqaga moslik uchun eski nomlar (alias)
+const createNews = createService;
+const getAllNews = getAllServices;
+const getNewsById = getServiceById;
+
+module.exports = {
+  // Yangi nomlar:
+  createService,
+  getAllServices,
+  getServiceById,
+  // Eski nomlar (agar boshqa joyda chaqirilayotgan bo'lsa sinmasin):
+  createNews,
+  getAllNews,
+  getNewsById,
+};

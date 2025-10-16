@@ -1,5 +1,5 @@
 const AdminBro = require('admin-bro');
-const { Advantage } = require('./members.entity');
+const { Members } = require('./members.entity');
 
 const {
   after: passwordAfterHook,
@@ -51,5 +51,5 @@ const options = {
 
 module.exports = {
   options,
-  resource: Advantage,
+  resource: Members,
 };

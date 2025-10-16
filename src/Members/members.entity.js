@@ -1,18 +1,15 @@
 const mongoose = require('mongoose');
 
-const AdvantageSchema = new mongoose.Schema({
+const MembersSchema = new mongoose.Schema({
   image: {
     type: String,
   },
  title:{
   type: String,
  },
- description:{
-  type: String,
- },
 
 });
 
-const Advantage = mongoose.model('Advantage', AdvantageSchema);
+const Members = mongoose.model('Members', MembersSchema);
 
-module.exports = { AdvantageSchema, Advantage };
+module.exports = { MembersSchema, Members };

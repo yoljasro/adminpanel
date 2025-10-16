@@ -12,10 +12,9 @@ const { createCompany, getAllCompanies } = require("./controllers/company.contro
 const {createClient , getAllClients} = require("./controllers/client.controller")
 const {createMotto , getAllMotto} = require("./controllers/motto.controller")
 const {createProjectLogo  , getAllProjectLogos} = require("./controllers/projectLogo.controller")
-const {createCommand , getAllCommand} = require("./controllers/command.controller")
 const {createForm , getAllForm} = require("./controllers/form.controller")
 const {createNews , getAllNews , getNewsById} = require("./controllers/news.controller");
-const { createRestaurant , getAllRestaurants } = require('./controllers/restaurants.controller');
+const { createCommand , getAllCommand } = require('./controllers/restaurants.controller');
 const {createChefs , getAllChefs} = require("./controllers/chefs.controller")
 const {createMembers , getAllMembers}= require("./controllers/members.controller")
 const {createGid   , getAllGid} = require("./controllers/gid.controller")
@@ -74,10 +73,10 @@ const run = async () => {
   app.get("/news" , getAllNews)
   app.get("/news/:id" , getNewsById)
   //restaurants
-  app.post("/res" , createRestaurant)
-  app.get("/res" , getAllRestaurants)
+  app.post("/res" , createCommand)
+  app.get("/res" , getAllCommand)
   // commands
-  //chefs
+  //chefs   
   app.post("/chefs" , createChefs)
   app.get("/chefs" , getAllChefs)
 

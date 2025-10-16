@@ -1,11 +1,8 @@
+// src/admin/command.resource.js
 const AdminBro = require('admin-bro');
-const { Commands } = require('./restraurants.entity');
+const { Command } = require('./restraurants.entity');
 
-const {
-  after: passwordAfterHook,
-  before: passwordBeforeHook,
-} = require('./actions/password.hook');
-
+// Faqat rasm upload hooklari kerak bo'lsa — password hook'larni olib tashlaymiz
 const {
   after: uploadAfterHook,
   before: uploadBeforeHook,
@@ -20,38 +17,28 @@ const options = {
         list: AdminBro.bundle('./components/upload-image.list.tsx'),
       },
     },
+    _id:        { isVisible: { list: false, filter: false, show: true,  edit: false } },
+    __v:        { isVisible: false },
+    createdAt:  { isVisible: { list: true,  filter: true,  show: true,  edit: false } },
+    updatedAt:  { isVisible: { list: false, filter: false, show: true,  edit: false } },
   },
+
+  listProperties:   ['title', 'job', 'image', 'createdAt'],
+  filterProperties: ['title', 'job', 'createdAt'],
+  editProperties:   ['title', 'job', 'image', 'obrazovanie', 'stajRaboti'],
+  showProperties:   ['title', 'job', 'image', 'obrazovanie', 'stajRaboti', 'createdAt', 'updatedAt'],
+
   actions: {
-    new: {
-      after: async (response, request, context) => {
-        const modifiedResponse = await passwordAfterHook(response, request, context);
-        return uploadAfterHook(modifiedResponse, request, context);
-      },
-      before: async (request, context) => {
-        const modifiedRequest = await passwordBeforeHook(request, context);
-        return uploadBeforeHook(modifiedRequest, context);
-      },
-    },
-    edit: {
-      after: async (response, request, context) => {
-        const modifiedResponse = await passwordAfterHook(response, request, context);
-        return uploadAfterHook(modifiedResponse, request, context);
-      },
-      before: async (request, context) => {
-        const modifiedRequest = await passwordBeforeHook(request, context);
-        return uploadBeforeHook(modifiedRequest, context);
-      },
-    },
-    show: {
-      isVisible: false,
-    },
+    new:  { before: uploadBeforeHook, after: uploadAfterHook },
+    edit: { before: uploadBeforeHook, after: uploadAfterHook },
+    show: { isVisible: true },
   },
-  navigation: {
-    icon: 'Manufacture',
-  },
+
+  navigation: { icon: 'Manufacture' },
+  sort: { direction: 'desc', sortBy: 'createdAt' },
 };
 
 module.exports = {
   options,
-  resource: Commands,
+  resource: Command, // MUHIM: aynan Command modeli
 };

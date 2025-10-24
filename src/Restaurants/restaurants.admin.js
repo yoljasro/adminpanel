@@ -1,26 +1,31 @@
 // src/admin/command.resource.js
-const AdminBro = require('admin-bro');
-const { Command } = require('./restraurants.entity');
+const AdminBro = require('admin-bro'); // (yoki @adminjs, loyihangizga mos)
+const { Command } = require('../Restaurants/restraurants.entity');
 
-// Faqat rasm upload hooklari kerak bo'lsa — password hook'larni olib tashlaymiz
-const {
-  after: uploadAfterHook,
-  before: uploadBeforeHook,
-} = require('./actions/upload-image.hook');
+// Agar upload hooklaringiz bo‘lsa, ulang; bo‘lmasa bu qismini olib tashlang
+let uploadBeforeHook, uploadAfterHook;
+try {
+  const hooks = require('./actions/upload-image.hook');
+  uploadBeforeHook = hooks.before;
+  uploadAfterHook  = hooks.after;
+} catch (_) {
+  // optional
+}
 
-/** @type {AdminBro.ResourceOptions} */
+/** @type {import('admin-bro').ResourceOptions} */
 const options = {
   properties: {
     image: {
-      components: {
-        edit: AdminBro.bundle('./components/upload-image.edit.tsx'),
-        list: AdminBro.bundle('./components/upload-image.list.tsx'),
-      },
+      // custom componentlaringiz bo‘lsa:
+      // components: {
+      //   edit: AdminBro.bundle('./components/upload-image.edit.tsx'),
+      //   list: AdminBro.bundle('./components/upload-image.list.tsx'),
+      // },
     },
-    _id:        { isVisible: { list: false, filter: false, show: true,  edit: false } },
-    __v:        { isVisible: false },
-    createdAt:  { isVisible: { list: true,  filter: true,  show: true,  edit: false } },
-    updatedAt:  { isVisible: { list: false, filter: false, show: true,  edit: false } },
+    _id:       { isVisible: { list: false, filter: false, show: true,  edit: false } },
+    __v:       { isVisible: false },
+    createdAt: { isVisible: { list: true,  filter: true,  show: true,  edit: false } },
+    updatedAt: { isVisible: { list: false, filter: false, show: true,  edit: false } },
   },
 
   listProperties:   ['title', 'job', 'image', 'createdAt'],
@@ -29,16 +34,16 @@ const options = {
   showProperties:   ['title', 'job', 'image', 'obrazovanie', 'stajRaboti', 'createdAt', 'updatedAt'],
 
   actions: {
-    new:  { before: uploadBeforeHook, after: uploadAfterHook },
-    edit: { before: uploadBeforeHook, after: uploadAfterHook },
+    new:  uploadBeforeHook && uploadAfterHook ? { before: uploadBeforeHook, after: uploadAfterHook } : undefined,
+    edit: uploadBeforeHook && uploadAfterHook ? { before: uploadBeforeHook, after: uploadAfterHook } : undefined,
     show: { isVisible: true },
   },
 
-  navigation: { icon: 'Manufacture' },
+  navigation: { icon: 'User' },
   sort: { direction: 'desc', sortBy: 'createdAt' },
 };
 
 module.exports = {
   options,
-  resource: Command, // MUHIM: aynan Command modeli
+  resource: Command,
 };

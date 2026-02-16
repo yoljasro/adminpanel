@@ -3,8 +3,16 @@ const { Motto } = require('../Motto/motto.entity');
 // Create Motto
 const createMotto = async (req, res) => {
   try {
-    const { title , description } = req.body;
-    const newMotto = new Motto({ title , description });
+    const {
+      title_uz, title_ru, title_en, title_uz_cyr,
+      subtitle_uz, subtitle_ru, subtitle_en, subtitle_uz_cyr,
+      description_uz, description_ru, description_en, description_uz_cyr
+    } = req.body;
+    const newMotto = new Motto({
+      title_uz, title_ru, title_en, title_uz_cyr,
+      subtitle_uz, subtitle_ru, subtitle_en, subtitle_uz_cyr,
+      description_uz, description_ru, description_en, description_uz_cyr
+    });
     await newMotto.save();
     res.status(201).json(newMotto);
   } catch (error) {

@@ -4,8 +4,16 @@ const { Services } = require('../Services/news.entity');
 // Create
 const createService = async (req, res) => {
   try {
-    const { image, title, description, date } = req.body;
-    const doc = new Services({ image, title, description, date });
+    const {
+      image, date,
+      title_uz, title_ru, title_en, title_uz_cyr,
+      description_uz, description_ru, description_en, description_uz_cyr
+    } = req.body;
+    const doc = new Services({
+      image, date,
+      title_uz, title_ru, title_en, title_uz_cyr,
+      description_uz, description_ru, description_en, description_uz_cyr
+    });
     await doc.save();
     res.status(201).json(doc);
   } catch (error) {

@@ -14,6 +14,14 @@ const {
 /** @type {AdminBro.ResourceOptions} */
 const options = {
   properties: {
+    title_uz: { type: 'string' },
+    title_ru: { type: 'string' },
+    title_en: { type: 'string' },
+    title_uz_cyr: { type: 'string' },
+    description_uz: { type: 'textarea' },
+    description_ru: { type: 'textarea' },
+    description_en: { type: 'textarea' },
+    description_uz_cyr: { type: 'textarea' },
     image: {
       components: {
         edit: AdminBro.bundle('./components/upload-image.edit.tsx'),
@@ -46,7 +54,7 @@ const options = {
       isVisible: false,
     },
   },
-    // Ikonka qo'shildi
+  // Ikonka qo'shildi
 };
 
 module.exports = {
